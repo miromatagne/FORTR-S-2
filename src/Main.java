@@ -27,9 +27,12 @@ public class Main{
       System.out.println("Invalid number of arguments. One argument is expected.");
     }
     else {
-        List<Symbol> symbols = new ArrayList<Symbol>();
-        symbols = getTokens(argv[0]);
-        Parser parser = new Parser(symbols);
+        List<Symbol> tokens = new ArrayList<Symbol>();
+        tokens = getTokens(argv[0]);
+        Parser parser = new Parser(tokens);
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
     }
     }
 
