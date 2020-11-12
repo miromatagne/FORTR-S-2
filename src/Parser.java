@@ -1,7 +1,5 @@
 import java.util.List;
 
-import jdk.javadoc.internal.doclets.formats.html.resources.standard;
-
 public class Parser {
     private static List<Symbol> tokens;
     private static int index;
@@ -78,7 +76,7 @@ public class Parser {
         Symbol token = nextToken();
         switch(token.getType()) {
             case READ:
-                match(new Symbol(LexicalUnit.PRINT));
+                match(new Symbol(LexicalUnit.READ));
                 break;
             case LPAREN:
                 match(new Symbol(LexicalUnit.LPAREN));   
