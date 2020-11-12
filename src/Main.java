@@ -33,8 +33,9 @@ public class Main{
         parser.start();
     }
     }
-
-    private static List<Symbol> getTokens(String fileName) {
+  
+    
+  private static List<Symbol> getTokens(String fileName) {
       LexicalAnalyzer scanner = null;
       List<Symbol> tokens = new ArrayList<Symbol>();
       try {
