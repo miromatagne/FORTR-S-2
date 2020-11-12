@@ -91,7 +91,6 @@ ZeroError       = (0){Numeric}+
 	//Check for parenthesis or commas
 	"("				{return new Symbol(LexicalUnit.LPAREN,yyline, yycolumn, yytext());}
 	")"				{return new Symbol(LexicalUnit.RPAREN,yyline, yycolumn, yytext());}
-	// ","             {return new Symbol(LexicalUnit.COMMA,yyline, yycolumn, yytext());}
 
 	// Relational operators
 	"=="	        { return new Symbol(LexicalUnit.EQ,yyline, yycolumn, yytext());}

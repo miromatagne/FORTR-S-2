@@ -2,6 +2,8 @@ import java.util.TreeMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 /* 
     INFO-F-430 project, Part 1
@@ -25,12 +27,14 @@ public class Main{
       System.out.println("Invalid number of arguments. One argument is expected.");
     }
     else {
-      getTokens(argv[0]);
+        List<Symbol> symbols = new ArrayList<Symbol>();
+        symbols = getTokens(argv[0]);
     }
     }
 
-    private static void getTokens(String fileName) {
+    private static List<Symbol> getTokens(String fileName) {
       LexicalAnalyzer scanner = null;
+      List<Symbol> tokens = new ArrayList<Symbol>();
       try {
         java.io.FileInputStream stream = new java.io.FileInputStream(fileName);
         java.io.Reader reader = new java.io.InputStreamReader(stream, "UTF-8");
@@ -50,12 +54,13 @@ public class Main{
               symbolTable.put(receivedSymbol.getValue().toString(),receivedSymbol.getLine());
             }
           }
-          System.out.println(receivedSymbol.toString());
+          //System.out.println(receivedSymbol.toString());
+          tokens.add(receivedSymbol);
           receivedSymbol = scanner.nextToken();
         }
 
         //Displaying of the symbol table
-        printSymbolTable(symbolTable);
+        //printSymbolTable(symbolTable);
 
       } catch (java.io.FileNotFoundException e) {
         System.out.println("File not found : \"" + fileName + "\"");
@@ -66,6 +71,7 @@ public class Main{
         System.out.println("Unexpected exception:");
         e.printStackTrace();
       }
+      return tokens;
   }
 
   /**
