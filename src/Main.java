@@ -30,9 +30,7 @@ public class Main{
         List<Symbol> tokens = new ArrayList<Symbol>();
         tokens = getTokens(argv[0]);
         Parser parser = new Parser(tokens);
-        parser.nextToken();
-        parser.nextToken();
-        parser.nextToken();
+        parser.start();
     }
     }
 
