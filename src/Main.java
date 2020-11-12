@@ -29,6 +29,7 @@ public class Main{
     else {
         List<Symbol> symbols = new ArrayList<Symbol>();
         symbols = getTokens(argv[0]);
+        Parser parser = new Parser(symbols);
     }
     }
 
