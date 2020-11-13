@@ -30,9 +30,25 @@ public class Parser {
         Symbol token = nextToken();
         switch(token.getType()) {
             case VARNAME:
+                instruction();
+                match(new Symbol(LexicalUnit.ENDLINE));
+                code();
+                break;
             case IF:
+                instruction();
+                match(new Symbol(LexicalUnit.ENDLINE));
+                code();
+                break;
             case WHILE:
+                instruction();
+                match(new Symbol(LexicalUnit.ENDLINE));
+                code();
+                break;
             case PRINT:
+                instruction();
+                match(new Symbol(LexicalUnit.ENDLINE));
+                code();
+                break;
             case READ:
                 instruction();
                 match(new Symbol(LexicalUnit.ENDLINE));
@@ -99,7 +115,7 @@ public class Parser {
             case RPAREN: 
             case GT:
             case EQ: 
-                return;
+                break;
         }
     }
 
@@ -135,20 +151,20 @@ public class Parser {
         Symbol token = nextToken();
         // System.out.println(token.getType());
         switch(token.getType()) {
-            case VARNAME:
-                match(new Symbol(LexicalUnit.VARNAME));
-                break;
-            case NUMBER:
-                match(new Symbol(LexicalUnit.NUMBER));
+            case MINUS:
+                match(new Symbol(LexicalUnit.MINUS));
+                atom();
                 break;
             case LPAREN:
                 match(new Symbol(LexicalUnit.LPAREN));
                 exprArith();
                 match(new Symbol(LexicalUnit.RPAREN));
                 break;
-            case MINUS:
-                match(new Symbol(LexicalUnit.MINUS));
-                atom();
+            case VARNAME:
+                match(new Symbol(LexicalUnit.VARNAME));
+                break;
+            case NUMBER:
+                match(new Symbol(LexicalUnit.NUMBER));
                 break;
             default:
                 System.out.println("ERROR ATOM");
