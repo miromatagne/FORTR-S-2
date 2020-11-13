@@ -39,9 +39,12 @@ public class Parser {
                 code();
                 break;
             case ENDPROG:
+            case ENDWHILE:
+            case ELSE:
+            case ENDIF:
                 break;
             default:
-                System.out.println("ERROR");
+                System.out.println("ERROR" + token.toString());
         }
     }
 
@@ -124,7 +127,7 @@ public class Parser {
             case PLUS:
             case MINUS:
             case RPAREN: 
-                return;
+                break;
         }        
     }
 
@@ -133,10 +136,10 @@ public class Parser {
         // System.out.println(token.getType());
         switch(token.getType()) {
             case VARNAME:
-                match(token);
+                match(new Symbol(LexicalUnit.VARNAME));
                 break;
             case NUMBER:
-                match(token);
+                match(new Symbol(LexicalUnit.NUMBER));
                 break;
             case LPAREN:
                 match(new Symbol(LexicalUnit.LPAREN));
@@ -148,7 +151,7 @@ public class Parser {
                 atom();
                 break;
             default:
-                System.out.println("ERROR");
+                System.out.println("ERROR ATOM");
         }
     }
 
@@ -212,23 +215,10 @@ public class Parser {
     }
 
     private static void print() {
-        Symbol token = nextToken();
-        switch(token.getType()) {
-            case PRINT:
-                match(new Symbol(LexicalUnit.PRINT));
-                break;
-            case LPAREN:
-                match(new Symbol(LexicalUnit.LPAREN));   
-                break;    
-            case VARNAME:
-                match(new Symbol(LexicalUnit.VARNAME));   
-                break;
-            case RPAREN:
-                match(new Symbol(LexicalUnit.RPAREN));   
-                break;  
-            default:
-                System.out.println("ERROR");  
-        }    
+        match(new Symbol(LexicalUnit.PRINT));
+        match(new Symbol(LexicalUnit.LPAREN));   
+        match(new Symbol(LexicalUnit.VARNAME));   
+        match(new Symbol(LexicalUnit.RPAREN));      
     }
 
     private static void read() {

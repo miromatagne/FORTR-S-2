@@ -6,7 +6,8 @@ BEGINPROG Average
       WHILE(nbnumbers > i) DO
         READ(number)
         i := i + 1
-        average := (average * (i - 1) + number)/i ENDWHILE
+        average := (average * (i - 1) + number)/i 
+        ENDWHILE
     ELSE                                           // The input number of numbers is negative or zero
       average := 0  
     ENDIF
