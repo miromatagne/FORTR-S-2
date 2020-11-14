@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* 
-    INFO-F-430 project, Part 1
+    INFO-F-430 project, Part 2
 
     Students :
         -MATAGNE Miro-Manuel (459668)
         -TRAN NGOC Linh (459764)
     
-    Design of a lexical analyzer for a FORTR-S compiler
+    Design of a parser for a FORTR-S compiler
 */
 
 public class Main{
@@ -23,12 +23,35 @@ public class Main{
    */
     public static void main(String[] argv) { 
     //Syntax check
-    if (argv.length == 0 || argv.length > 1) {
-      System.out.println("Invalid number of arguments. One argument is expected.");
+    boolean valid = true;
+    if (argv.length == 0) {
+      System.out.println("Invalid number of arguments");
+      valid = false;
     }
-    else {
+    boolean verbose = false;
+    String texFileName = null;
+    String fileName = null;
+    for(int i = 0; i < argv.length; i++) {
+      if(argv[i].equals("-v")) {
+        verbose = true;
+      }
+      else if(argv[i].equals("-wb")) {
+        if(i != argv.length -1 && argv[i+1].charAt(0) != '-') {
+          texFileName = argv[i+1];
+          i++;
+        }
+        else {
+          System.out.println("-wb should be followed by a file name.");
+          valid = false;
+        }
+      }
+      else {
+        fileName = argv[i];
+      }
+    }
+    if(valid && fileName != null) {
         List<Symbol> tokens = new ArrayList<Symbol>();
-        tokens = getTokens(argv[0]);
+        tokens = getTokens(fileName);
         Parser parser = new Parser(tokens);
         List<Integer> rules = parser.start();
         System.out.println(rules);
