@@ -21,7 +21,7 @@ public class Main{
    * out the tokens it returns.
    * @param argv
    */
-    public static void main(String[] argv) {
+    public static void main(String[] argv) { 
     //Syntax check
     if (argv.length == 0 || argv.length > 1) {
       System.out.println("Invalid number of arguments. One argument is expected.");

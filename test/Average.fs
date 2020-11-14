@@ -10,7 +10,7 @@ BEGINPROG Average
         i := i + 1
         average := (average * (i - 1) + number)/i 
         ENDWHILE
-    ELSE                                           // The input number of numbers is negative or zero
+    ELSE       // The input number of numbers is negative or zero
       average := 0  
     ENDIF
     PRINT(average)
