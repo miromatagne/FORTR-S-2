@@ -1,63 +1,54 @@
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Rules done :
- * 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+ * 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
  */
 
 public class Parser {
     private static List<Symbol> tokens;
     private static int index;
+    private static List<Integer> rules;
 
     public Parser(List<Symbol> tokens) {
         this.tokens = tokens;
         this.index = 0;
+        this.rules = new ArrayList<Integer>();
     }
 
-    public static void start() {
+    public static List<Integer> start() {
         program();
+        return rules;
     }
 
     private static void program() {
         match(new Symbol(LexicalUnit.BEGINPROG));
         match(new Symbol(LexicalUnit.PROGNAME));
-        match(new Symbol(LexicalUnit.ENDLINE));
+        endLine();
         code();
         match(new Symbol(LexicalUnit.ENDPROG));
+        addRule(1);
     }
 
     private static void code() {
         Symbol token = nextToken();
         switch(token.getType()) {
             case VARNAME:
-                instruction();
-                match(new Symbol(LexicalUnit.ENDLINE));
-                code();
-                break;
             case IF:
-                instruction();
-                match(new Symbol(LexicalUnit.ENDLINE));
-                code();
-                break;
             case WHILE:
-                instruction();
-                match(new Symbol(LexicalUnit.ENDLINE));
-                code();
-                break;
             case PRINT:
-                instruction();
-                match(new Symbol(LexicalUnit.ENDLINE));
-                code();
-                break;
             case READ:
                 instruction();
-                match(new Symbol(LexicalUnit.ENDLINE));
+                endLine();
                 code();
+                addRule(2);
                 break;
             case ENDPROG:
             case ENDWHILE:
             case ELSE:
             case ENDIF:
+                addRule(3);
                 break;
             default:
                 System.out.println("ERROR" + token.toString());
@@ -69,18 +60,23 @@ public class Parser {
         switch(token.getType()) {
             case VARNAME:
                 assign();
+                addRule(4);
                 break;
             case IF:
                 If();
+                addRule(5);
                 break;
             case WHILE:  
                 While();
+                addRule(6);
                 break;
             case PRINT:
                 print();
+                addRule(7);
                 break; 
             case READ:
                 read();
+                addRule(8);
                 break;
             default:
                 System.out.println("ERROR");
@@ -91,11 +87,13 @@ public class Parser {
         match(new Symbol(LexicalUnit.VARNAME));
         match(new Symbol(LexicalUnit.ASSIGN));
         exprArith();
+        addRule(9);
     }
 
     private static void exprArith() {
         prod();
         exprArithPrime();
+        addRule(10);
     }
 
     private static void exprArithPrime() {
@@ -105,23 +103,27 @@ public class Parser {
                 match(new Symbol(LexicalUnit.PLUS));
                 prod();
                 exprArithPrime();
+                addRule(11);
                 break;
             case MINUS:
                 match(new Symbol(LexicalUnit.MINUS));
                 prod();
                 exprArithPrime();
+                addRule(12);
                 break;
             case ENDLINE:  
             case RPAREN: 
             case GT:
-            case EQ: 
+            case EQ:
+                addRule(13); 
                 break;
         }
     }
 
     private static void prod() {
         atom();
-        prodPrime();  
+        prodPrime();
+        addRule(14);
     }
 
     private static void prodPrime() {
@@ -131,11 +133,13 @@ public class Parser {
                 match(new Symbol(LexicalUnit.TIMES));
                 atom();
                 prodPrime();
+                addRule(15);
                 break;
             case DIVIDE:
                 match(new Symbol(LexicalUnit.DIVIDE));
                 atom();
                 prodPrime();
+                addRule(16);
                 break;
             case ENDLINE:
             case GT:
@@ -143,6 +147,7 @@ public class Parser {
             case PLUS:
             case MINUS:
             case RPAREN: 
+                addRule(17);
                 break;
         }        
     }
@@ -154,17 +159,21 @@ public class Parser {
             case MINUS:
                 match(new Symbol(LexicalUnit.MINUS));
                 atom();
+                addRule(18);
                 break;
             case LPAREN:
                 match(new Symbol(LexicalUnit.LPAREN));
                 exprArith();
                 match(new Symbol(LexicalUnit.RPAREN));
+                addRule(19);
                 break;
             case VARNAME:
                 match(new Symbol(LexicalUnit.VARNAME));
+                addRule(20);
                 break;
             case NUMBER:
                 match(new Symbol(LexicalUnit.NUMBER));
+                addRule(21);
                 break;
             default:
                 System.out.println("ERROR ATOM");
@@ -177,9 +186,10 @@ public class Parser {
         cond();
         match(new Symbol(LexicalUnit.RPAREN));
         match(new Symbol(LexicalUnit.THEN));
-        match(new Symbol(LexicalUnit.ENDLINE));
+        endLine();
         code();
         ifTail();
+        addRule(22);
     }
 
     private static void ifTail() {
@@ -187,12 +197,14 @@ public class Parser {
         switch(token.getType()) {
             case ENDIF:
                 match(new Symbol(LexicalUnit.ENDIF));
+                addRule(23);
                 break;
             case ELSE:
                 match(new Symbol(LexicalUnit.ELSE));
-                match(new Symbol(LexicalUnit.ENDLINE));
+                endLine();
                 code();
                 match(new Symbol(LexicalUnit.ENDIF));
+                addRule(24);
                 break;
             default:
                // System.out.println("ERROR");
@@ -203,6 +215,7 @@ public class Parser {
         exprArith();
         comp();
         exprArith();
+        addRule(25);
     }
 
     private static void comp() {
@@ -210,9 +223,11 @@ public class Parser {
         switch(token.getType()) {
             case GT:
                 match(new Symbol(LexicalUnit.GT));
+                addRule(26);
                 break;
             case EQ:
                 match(new Symbol(LexicalUnit.EQ));
+                addRule(27);
                 break;
             default:
                // System.out.println("ERROR");
@@ -225,23 +240,56 @@ public class Parser {
         cond();
         match(new Symbol(LexicalUnit.RPAREN));
         match(new Symbol(LexicalUnit.DO));
-        match(new Symbol(LexicalUnit.ENDLINE));
+        endLine();
         code();
         match(new Symbol(LexicalUnit.ENDWHILE));
+        addRule(28);
     }
 
     private static void print() {
         match(new Symbol(LexicalUnit.PRINT));
         match(new Symbol(LexicalUnit.LPAREN));   
         match(new Symbol(LexicalUnit.VARNAME));   
-        match(new Symbol(LexicalUnit.RPAREN));      
+        match(new Symbol(LexicalUnit.RPAREN));   
+        addRule(29);   
     }
 
     private static void read() {
         match(new Symbol(LexicalUnit.READ));
         match(new Symbol(LexicalUnit.LPAREN));   
         match(new Symbol(LexicalUnit.VARNAME));   
-        match(new Symbol(LexicalUnit.RPAREN));   
+        match(new Symbol(LexicalUnit.RPAREN));
+        addRule(30);   
+    }
+
+    private static void endLine() {
+        match(new Symbol(LexicalUnit.ENDLINE));
+        endLinePrime();
+        addRule(31);
+    }
+
+    private static void endLinePrime() {
+        Symbol token = nextToken();
+        switch(token.getType()) {
+            case ENDLINE:
+                match(new Symbol(LexicalUnit.ENDLINE));
+                endLinePrime();
+                addRule(32);
+            break;
+            case VARNAME:
+            case IF:
+            case WHILE:
+            case PRINT:
+            case READ:
+            case ENDPROG:
+            case ENDIF:
+            case ELSE:
+            case ENDWHILE:
+                addRule(33);
+                break;
+            default:
+               // System.out.println("ERROR");
+        }
     }
 
 
@@ -257,5 +305,9 @@ public class Parser {
 
     private static Symbol nextToken() {
         return tokens.get(index);
+    }
+
+    private static void addRule(int i) {
+        rules.add(0,i);
     }
 }
