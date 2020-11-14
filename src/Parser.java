@@ -10,16 +10,24 @@ public class Parser {
     private static List<Symbol> tokens;
     private static int index;
     private static List<Integer> rules;
+    private static String errorMessage;
 
     public Parser(List<Symbol> tokens) {
         this.tokens = tokens;
         this.index = 0;
         this.rules = new ArrayList<Integer>();
+        this.errorMessage = null;
     }
-    
+
     public static List<Integer> start() {
         program();
-        return rules;
+        if(errorMessage != null) {
+            System.out.println(errorMessage);
+            return null;
+        }
+        else {
+            return rules;
+        }
     }
 
     private static void program() {
@@ -299,7 +307,9 @@ public class Parser {
             index++;
         }
         else {
-            System.out.println("NO MATCH");
+            if(errorMessage == null) {
+                errorMessage = "Error at line " + tokens.get(index).getLine() + ", expected " + symbol.getType() + " but got " + tokens.get(index).getType();
+            }    
         }
     }
 
