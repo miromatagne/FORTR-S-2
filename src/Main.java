@@ -54,7 +54,9 @@ public class Main{
         tokens = getTokens(fileName);
         Parser parser = new Parser(tokens);
         List<Integer> rules = parser.start();
-        System.out.println(rules);
+        if(rules != null) {
+          printRules(rules);
+        }
     }
     }
   
@@ -116,5 +118,11 @@ public class Main{
           System.out.println(pair.getKey() + "\t" + pair.getValue());
           it.remove();
         }
+    }
+
+    private static void printRules(List<Integer> rules) {
+      for(int i = 0; i < rules.size(); i++) {
+        System.out.print(rules.get(i) + " ");
+      }
     }
 }

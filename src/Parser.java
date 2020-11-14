@@ -59,7 +59,7 @@ public class Parser {
                 addRule(3);
                 break;
             default:
-                System.out.println("ERROR" + token.toString());
+                //System.out.println("ERROR" + token.toString());
         }
     }
 
@@ -87,7 +87,7 @@ public class Parser {
                 addRule(8);
                 break;
             default:
-                System.out.println("ERROR");
+                //System.out.println("ERROR");
         }
     }
 
@@ -184,7 +184,7 @@ public class Parser {
                 addRule(21);
                 break;
             default:
-                System.out.println("ERROR ATOM");
+                //System.out.println("ERROR ATOM");
         }
     }
 
@@ -303,12 +303,12 @@ public class Parser {
 
     public static void match(Symbol symbol) {
         if(tokens.get(index).getType() == symbol.getType()) {
-            System.out.println("MATCH " + symbol.getType());
+            //System.out.println("MATCH " + symbol.getType());
             index++;
         }
         else {
             if(errorMessage == null) {
-                errorMessage = "Error at line " + tokens.get(index).getLine() + ", expected " + symbol.getType() + " but got " + tokens.get(index).getType();
+                errorMessage = "Error at line " + tokens.get(index).getLine() + ", at position " + tokens.get(index).getLine() + ", expected " + symbol.getType() + " but got " + tokens.get(index).getType();
             }    
         }
     }
