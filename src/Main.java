@@ -35,13 +35,13 @@ public class Main{
       if(argv[i].equals("-v")) {
         verbose = true;
       }
-      else if(argv[i].equals("-wb")) {
+      else if(argv[i].equals("-wt")) {
         if(i != argv.length -1 && argv[i+1].charAt(0) != '-') {
           texFileName = argv[i+1];
           i++;
         }
         else {
-          System.out.println("-wb should be followed by a file name.");
+          System.out.println("-wt should be followed by a file name.");
           valid = false;
         }
       }
@@ -57,6 +57,12 @@ public class Main{
         if(rules != null) {
           printRules(rules);
         }
+        ParseTree parseTree = parser.getTree();
+        System.out.print(parseTree.toLaTeX());
+
+        // for(int i = 0; i < parseTree.getChildren().size(); i++) {
+        //   System.out.print(parseTree.getChildren().get(i) + " ");
+        // }
     }
     }
   

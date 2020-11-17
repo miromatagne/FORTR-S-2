@@ -5,28 +5,34 @@ public class Symbol{
 	private final LexicalUnit type;
 	private final Object value;
 	private final int line,column;
+	private String name;
 
-	public Symbol(LexicalUnit unit,int line,int column,Object value){
-    this.type	= unit;
-		this.line	= line+1;
-		this.column	= column;
-		this.value	= value;
+	public Symbol(LexicalUnit unit, int line, int column, Object value) {
+		this.type = unit;
+		this.line = line + 1;
+		this.column = column;
+		this.value = value;
 	}
-	
-	public Symbol(LexicalUnit unit,int line,int column){
-		this(unit,line,column,NO_VALUE);
+
+	public Symbol(LexicalUnit unit, int line, int column) {
+		this(unit, line, column, NO_VALUE);
 	}
-	
-	public Symbol(LexicalUnit unit,int line){
-		this(unit,line,UNDEFINED_POSITION,NO_VALUE);
+
+	public Symbol(LexicalUnit unit, int line) {
+		this(unit, line, UNDEFINED_POSITION, NO_VALUE);
 	}
-	
-	public Symbol(LexicalUnit unit){
-		this(unit,UNDEFINED_POSITION,UNDEFINED_POSITION,NO_VALUE);
+
+	public Symbol(LexicalUnit unit) {
+		this(unit, UNDEFINED_POSITION, UNDEFINED_POSITION, NO_VALUE);
 	}
-	
-	public Symbol(LexicalUnit unit,Object value){
-		this(unit,UNDEFINED_POSITION,UNDEFINED_POSITION,value);
+
+	public Symbol(LexicalUnit unit, Object value) {
+		this(unit, UNDEFINED_POSITION, UNDEFINED_POSITION, value);
+	}
+
+	public Symbol(String name) { // added
+		this(null, UNDEFINED_POSITION, UNDEFINED_POSITION, NO_VALUE);
+		this.name = name;
 	}
 
 	public boolean isTerminal(){
@@ -65,8 +71,28 @@ public class Symbol{
 		if(this.isTerminal()){
 			final String value	= this.value != null? this.value.toString() : "null";
 			final String type		= this.type  != null? this.type.toString()  : "null";
-      return String.format("token: %-15slexical unit: %s", value, type);
+      		return String.format("token: %-15slexical unit: %s", value, type);
 		}
 		return "Non-terminal symbol";
+	}
+
+	public String toTexString(){
+		if(this.isTerminal()){
+			final String value	= this.value != null? this.value.toString() : "null";
+			final String type		= this.type  != null? this.type.toString()  : "null";
+			if(this.type == LexicalUnit.GT){
+				return String.format("%s \\textgreater", type);
+			}
+      		return String.format("\\textbf{%s}  %s", type, value); 
+		}
+		else{
+			final String name = this.name != null? this.name.toString() : "null";
+			if(this.name == "epsilon"){
+				return String.format("$\\varepsilon$");
+			}
+			else{
+				return String.format("\\textbf{\\textless %s\\textgreater}", name);
+			}
+		}
 	}
 }
