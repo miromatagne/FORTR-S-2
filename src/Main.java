@@ -4,6 +4,8 @@ import java.util.Map.Entry;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;  
 
 /* 
     INFO-F-430 project, Part 2
@@ -55,10 +57,17 @@ public class Main{
         Parser parser = new Parser(tokens);
         List<Integer> rules = parser.start();
         if(rules != null) {
-          printRules(rules);
+          if(verbose) {
+            printVerboseRules(rules);
+          }
+          else {
+            printRules(rules); 
+          }
+          if(texFileName != null) {
+            writeToTex(parser,texFileName);
+          }
         }
-        ParseTree parseTree = parser.getTree();
-        System.out.print(parseTree.toLaTeX());
+        //System.out.print(parseTree.toLaTeX());
 
         // for(int i = 0; i < parseTree.getChildren().size(); i++) {
         //   System.out.print(parseTree.getChildren().get(i) + " ");
@@ -129,6 +138,96 @@ public class Main{
     private static void printRules(List<Integer> rules) {
       for(int i = 0; i < rules.size(); i++) {
         System.out.print(rules.get(i) + " ");
+      }
+    }
+
+    private static void printVerboseRules(List<Integer> rules) {
+      for(int i = 0; i < rules.size(); i++) {
+          System.out.println(getVerbose(rules.get(i)));
+        }
+      }
+
+    private static void writeToTex(Parser parser, String texFileName) {
+      try {
+        FileWriter myWriter = new FileWriter(texFileName);
+        myWriter.write(parser.getTree().toLaTeX());
+        myWriter.close();
+      } catch (IOException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+      }
+    }
+
+    private static String getVerbose(int i) {
+      switch (i) {
+        case 1:
+          return "<Program> -> BEGINPROG [ProgName] <EndLine> <Code> ENDPROG";          
+        case 2:
+          return "<Code> -> <Instruction> [EndLine] <Code>";          
+        case 3:
+          return "<Code> -> epsilon";          
+        case 4:
+          return "<Instruction> -> <Assign>";          
+        case 5:
+          return "<Instruction> -> <If>";          
+        case 6:
+          return "<Instruction> -> <While>";          
+        case 7:
+          return "<Instruction> -> <Print>";          
+        case 8:
+          return "<Instruction> -> <Read>";          
+        case 9:
+          return "<Assign> -> [VarName] := <ExprArith>";          
+        case 10:
+          return "<ExprArith> -> <Prod><ExprArith'>";          
+        case 11:
+          return "<ExprArith'> -> +<Prod><ExprArith'>";          
+        case 12:
+          return "<ExprArith'> -> -<Prod><ExprArith'>";          
+        case 13:
+          return "<ExprArith'> -> epsilon";          
+        case 14:
+          return "<Prod> -> <Atom><Prod'>";          
+        case 15:
+          return "<Prod'> -> *<Atom><Prod'>";          
+        case 16:
+          return "<Prod'> -> /<Atom><Prod'>";          
+        case 17:
+          return "<Prod'> -> epsilon";          
+        case 18:
+          return "<Atom> -> -<Atom>";          
+        case 19:
+          return "<Atom> -> (<ExprArith>)";          
+        case 20:
+          return "<Atom> -> [VarName]";          
+        case 21:
+          return "<Atom> -> [Number]";          
+        case 22:
+          return "<If> -> IF (<Cond>) THEN <EndLine> <Code> <IfTail>";          
+        case 23:
+          return "<IfTail> -> ENDIF";          
+        case 24:
+          return "<IfTail> -> ELSE <EndLine> <Code> ENDIF";          
+        case 25:
+          return "<Cond> -> <ExprArith> <Comp> <ExprArith>";          
+        case 26:
+          return "<Comp> -> =";          
+        case 27:
+          return "<Comp> -> >";          
+        case 28:
+          return "<While> -> WHILE (<Cond>) DO <EndLine> <Code> ENDWHILE";          
+        case 29:
+          return "<Print> -> PRINT([VarName])";          
+        case 30:
+          return "<Read> -> READ([VarName])";          
+        case 31:
+          return "<EndLine> -> [EndLine] <EndLine'>";          
+        case 32:
+          return "<EndLine'> -> [EndLine] <EndLine'>";          
+        case 33:
+          return "<EndLine'> -> epsilon";          
+        default:
+          return null;
       }
     }
 }
