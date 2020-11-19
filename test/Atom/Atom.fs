@@ -1,1 +1,3 @@
--1442
+BEGINPROG Atom
+    a := -1442
+ENDPROG
