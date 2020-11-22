@@ -4,10 +4,10 @@ all:
 	jar cfe dist/part2.jar Main -C bin .
 
 normal:
-	java -jar dist/part2.jar test/Average/Average.fs
+	java -jar dist/part2.jar test/FortrS/Average.fs
 
 verbose:
-	java -jar dist/part2.jar test/Average/Average.fs -v
+	java -jar dist/part2.jar test/FortrS/Average.fs -v
 
 tree:
-	java -jar dist/part2.jar test/Average/Average.fs -wt tree.tex
+	java -jar dist/part2.jar test/FortrS/Average.fs -wt tree.tex
