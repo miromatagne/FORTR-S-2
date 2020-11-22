@@ -53,13 +53,13 @@ public class Parser {
      */
     private static ParseTree program() {
         printVerbose(1);
+        addRule(1);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.BEGINPROG), children);
         match(new Symbol(LexicalUnit.PROGNAME), children);
         children.add(endLine());
         children.add(code());
         match(new Symbol(LexicalUnit.ENDPROG), children);
-        addRule(1);
         Symbol program = new Symbol("Program");
         ParseTree programTree = new ParseTree(program, children);
         return programTree;
@@ -79,23 +79,20 @@ public class Parser {
             case PRINT:
             case READ:
                 printVerbose(2);
-                Symbol epsilon = new Symbol("epsilon");
-                ParseTree epsilonTree = new ParseTree(epsilon);
-                children.add(epsilonTree);
+                addRule(2);
                 children.add(instruction());
                 children.add(endLine());
                 children.add(code());
-                addRule(2);
                 break;
             case ENDPROG:
             case ENDWHILE:
             case ELSE:
             case ENDIF:
                 printVerbose(3);
-                Symbol epsilonBis = new Symbol("epsilon");
-                ParseTree epsilonBisTree = new ParseTree(epsilonBis);
-                children.add(epsilonBisTree);
                 addRule(3);
+                Symbol epsilon = new Symbol("epsilon");
+                ParseTree epsilonTree = new ParseTree(epsilon);
+                children.add(epsilonTree);
                 break;
             default:
                 // System.out.println("ERROR" + token.toString());
@@ -115,28 +112,28 @@ public class Parser {
         switch (token.getType()) {
             case VARNAME:
                 printVerbose(4);
-                children.add(assign());
                 addRule(4);
+                children.add(assign());
                 break;
             case IF:
                 printVerbose(5);
-                children.add(If());
                 addRule(5);
+                children.add(If());
                 break;
             case WHILE:
                 printVerbose(6);
-                children.add(While());
                 addRule(6);
+                children.add(While());
                 break;
             case PRINT:
                 printVerbose(7);
-                children.add(print());
                 addRule(7);
+                children.add(print());
                 break;
             case READ:
                 printVerbose(8);
-                children.add(read());
                 addRule(8);
+                children.add(read());
                 break;
             default:
                 // System.out.println("ERROR");
@@ -152,11 +149,11 @@ public class Parser {
      */
     private static ParseTree assign() {
         printVerbose(9);
+        addRule(9);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.VARNAME), children);
         match(new Symbol(LexicalUnit.ASSIGN), children);
         children.add(exprArith());
-        addRule(9);
         Symbol assign = new Symbol("Assign");
         ParseTree assignTree = new ParseTree(assign, children);
         return assignTree;
@@ -168,10 +165,10 @@ public class Parser {
      */
     private static ParseTree exprArith() {
         printVerbose(10);
+        addRule(10);
         List<ParseTree> children = new ArrayList<ParseTree>();
         children.add(prod());
         children.add(exprArithPrime());
-        addRule(10);
         Symbol exprArith = new Symbol("ExprArith");
         ParseTree exprArithTree = new ParseTree(exprArith, children);
         return exprArithTree;
@@ -187,27 +184,27 @@ public class Parser {
         switch (token.getType()) {
             case PLUS:
                 printVerbose(11);
+                addRule(11);
                 match(new Symbol(LexicalUnit.PLUS), children);
                 children.add(prod());
                 children.add(exprArithPrime());
-                addRule(11);
                 break;
             case MINUS:
                 printVerbose(12);
+                addRule(12);
                 match(new Symbol(LexicalUnit.MINUS), children);
                 children.add(prod());
                 children.add(exprArithPrime());
-                addRule(12);
                 break;
             case ENDLINE:
             case RPAREN:
             case GT:
             case EQ:
                 printVerbose(13);
+                addRule(13);
                 Symbol epsilon = new Symbol("epsilon");
                 ParseTree epsilonTree = new ParseTree(epsilon);
                 children.add(epsilonTree);
-                addRule(13);
                 break;
             default:
                 break;
@@ -223,10 +220,10 @@ public class Parser {
      */
     private static ParseTree prod() {
         printVerbose(14);
+        addRule(14);
         List<ParseTree> children = new ArrayList<ParseTree>();
         children.add(atom());
         children.add(prodPrime());
-        addRule(14);
         Symbol prod = new Symbol("Prod");
         ParseTree prodTree = new ParseTree(prod, children);
         return prodTree;
@@ -242,17 +239,17 @@ public class Parser {
         switch (token.getType()) {
             case TIMES:
                 printVerbose(15);
+                addRule(15);
                 match(new Symbol(LexicalUnit.TIMES), children);
                 children.add(atom());
                 children.add(prodPrime());
-                addRule(15);
                 break;
             case DIVIDE:
                 printVerbose(16);
+                addRule(16);
                 match(new Symbol(LexicalUnit.DIVIDE), children);
                 children.add(atom());
                 children.add(prodPrime());
-                addRule(16);
                 break;
             case ENDLINE:
             case GT:
@@ -261,10 +258,10 @@ public class Parser {
             case MINUS:
             case RPAREN:
                 printVerbose(17);
+                addRule(17);
                 Symbol epsilon = new Symbol("epsilon");
                 ParseTree epsilonTree = new ParseTree(epsilon);
                 children.add(epsilonTree);
-                addRule(17);
                 break;
         }
         Symbol prodPrime = new Symbol("Prod'");
@@ -282,26 +279,26 @@ public class Parser {
         switch (token.getType()) {
             case MINUS:
                 printVerbose(18);
+                addRule(18);
                 match(new Symbol(LexicalUnit.MINUS), children);
                 children.add(atom());
-                addRule(18);
                 break;
             case LPAREN:
                 printVerbose(19);
+                addRule(19);
                 match(new Symbol(LexicalUnit.LPAREN), children);
                 children.add(exprArith());
                 match(new Symbol(LexicalUnit.RPAREN), children);
-                addRule(19);
                 break;
             case VARNAME:
                 printVerbose(20);
-                match(new Symbol(LexicalUnit.VARNAME), children);
                 addRule(20);
+                match(new Symbol(LexicalUnit.VARNAME), children);
                 break;
             case NUMBER:
                 printVerbose(21);
-                match(new Symbol(LexicalUnit.NUMBER), children);
                 addRule(21);
+                match(new Symbol(LexicalUnit.NUMBER), children);
                 break;
             default:
                 // System.out.println("ERROR ATOM");
@@ -317,6 +314,7 @@ public class Parser {
      */
     private static ParseTree If() {
         printVerbose(22);
+        addRule(22);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.IF), children);
         match(new Symbol(LexicalUnit.LPAREN), children);
@@ -326,7 +324,6 @@ public class Parser {
         children.add(endLine());
         children.add(code());
         children.add(ifTail());
-        addRule(22);
         Symbol ifSymbol = new Symbol("If");
         ParseTree ifTree = new ParseTree(ifSymbol, children);
         return ifTree;
@@ -342,16 +339,16 @@ public class Parser {
         switch (token.getType()) {
             case ENDIF:
                 printVerbose(23);
-                match(new Symbol(LexicalUnit.ENDIF), children);
                 addRule(23);
+                match(new Symbol(LexicalUnit.ENDIF), children);
                 break;
             case ELSE:
                 printVerbose(24);
+                addRule(24);
                 match(new Symbol(LexicalUnit.ELSE), children);
                 children.add(endLine());
                 children.add(code());
                 match(new Symbol(LexicalUnit.ENDIF), children);
-                addRule(24);
                 break;
             default:
                 // System.out.println("ERROR");
@@ -367,11 +364,11 @@ public class Parser {
      */
     private static ParseTree cond() {
         printVerbose(25);
+        addRule(25);
         List<ParseTree> children = new ArrayList<ParseTree>();
         children.add(exprArith());
         children.add(comp());
         children.add(exprArith());
-        addRule(25);
         Symbol cond = new Symbol("Cond");
         ParseTree condTree = new ParseTree(cond, children);
         return condTree;
@@ -387,13 +384,13 @@ public class Parser {
         switch (token.getType()) {
             case GT:
                 printVerbose(26);
-                match(new Symbol(LexicalUnit.GT), children);
                 addRule(26);
+                match(new Symbol(LexicalUnit.GT), children);
                 break;
             case EQ:
                 printVerbose(27);
-                match(new Symbol(LexicalUnit.EQ), children);
                 addRule(27);
+                match(new Symbol(LexicalUnit.EQ), children);
                 break;
             default:
                 // System.out.println("ERROR");
@@ -409,6 +406,7 @@ public class Parser {
      */
     private static ParseTree While() {
         printVerbose(28);
+        addRule(28);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.WHILE), children);
         match(new Symbol(LexicalUnit.LPAREN), children);
@@ -418,7 +416,6 @@ public class Parser {
         children.add(endLine());
         children.add(code());
         match(new Symbol(LexicalUnit.ENDWHILE), children);
-        addRule(28);
         Symbol whileSymbol = new Symbol("While");
         ParseTree whileTree = new ParseTree(whileSymbol, children);
         return whileTree;
@@ -430,12 +427,12 @@ public class Parser {
      */
     private static ParseTree print() {
         printVerbose(29);
+        addRule(29);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.PRINT), children);
         match(new Symbol(LexicalUnit.LPAREN), children);
         match(new Symbol(LexicalUnit.VARNAME), children);
         match(new Symbol(LexicalUnit.RPAREN), children);
-        addRule(29);
         Symbol print = new Symbol("Print");
         ParseTree printTree = new ParseTree(print, children);
         return printTree;
@@ -447,12 +444,12 @@ public class Parser {
      */
     private static ParseTree read() {
         printVerbose(30);
+        addRule(30);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.READ), children);
         match(new Symbol(LexicalUnit.LPAREN), children);
         match(new Symbol(LexicalUnit.VARNAME), children);
         match(new Symbol(LexicalUnit.RPAREN), children);
-        addRule(30);
         Symbol read = new Symbol("Read");
         ParseTree readTree = new ParseTree(read, children);
         return readTree;
@@ -464,10 +461,10 @@ public class Parser {
      */
     private static ParseTree endLine() {
         printVerbose(31);
+        addRule(31);
         List<ParseTree> children = new ArrayList<ParseTree>();
         match(new Symbol(LexicalUnit.ENDLINE), children);
         children.add(endLinePrime());
-        addRule(31);
         Symbol endLine = new Symbol("EndLine");
         ParseTree endLineTree = new ParseTree(endLine, children);
         return endLineTree;
@@ -483,9 +480,9 @@ public class Parser {
         switch (token.getType()) {
             case ENDLINE:
                 printVerbose(32);
+                addRule(32);
                 match(new Symbol(LexicalUnit.ENDLINE), children);
                 children.add(endLinePrime());
-                addRule(32);
                 break;
             case VARNAME:
             case IF:
@@ -497,10 +494,10 @@ public class Parser {
             case ELSE:
             case ENDWHILE:
                 printVerbose(33);
+                addRule(33);
                 Symbol epsilon = new Symbol("epsilon");
                 ParseTree epsilonTree = new ParseTree(epsilon);
                 children.add(epsilonTree);
-                addRule(33);
                 break;
             default:
                 // System.out.println("ERROR");
@@ -545,11 +542,11 @@ public class Parser {
     }
 
     /**
-     * Adds a rule in first position to the list of rules used by the parser so far
+     * Adds a rule to the list of rules used by the parser so far
      * @param i number of the rule
      */
     private static void addRule(int i) {
-        rules.add(0, i);
+        rules.add(i);
     }
 
     /**

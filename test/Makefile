@@ -25,8 +25,8 @@ average:
 	@rm -f file
 
 exponents:
-	@java -cp ../bin Main ./FortrS/Exponents.fs >file 
-	@diff -b --strip-trailing-cr ./FortrS/Exponents.output file && echo "Exponents : Test Successful" || echo "Exponents : Test Failed"
+	@java -cp ../bin Main ./FortrS/Exponent.fs >file 
+	@diff -b --strip-trailing-cr ./FortrS/Exponent.output file && echo "Exponent : Test Successful" || echo "Exponents : Test Failed"
 	@rm -f file
 
 factorial:
@@ -45,11 +45,23 @@ maximum:
 	@rm -f file
 
 instructions:
-	@java -cp ../bin Main ./FortrS/Instructions.fs >file 
-	@diff -b --strip-trailing-cr ./FortrS/Instructions.output file && echo "Instructions : Test Successful" || echo "Instructions : Test Failed"
+	@java -cp ../bin Main ./Instructions/Instructions.fs >file 
+	@diff -b --strip-trailing-cr ./Instructions/Instructions.output file && echo "Instructions : Test Successful" || echo "Instructions : Test Failed"
 	@rm -f file
 
 program:
-	@java -cp ../bin Main ./FortrS/Program.fs >file 
-	@diff -b --strip-trailing-cr ./FortrS/Program.output file && echo "Program : Test Successful" || echo "Program : Test Failed"
+	@java -cp ../bin Main ./Program/Program.fs >file 
+	@diff -b --strip-trailing-cr ./Program/Program.output file && echo "Program : Test Successful" || echo "Program : Test Failed"
 	@rm -f file
+
+test:
+	@make atom
+	@make comments
+	@make errors
+	@make average
+	@make exponents
+	@make factorial
+	@make fibonacci
+	@make maximum
+	@make instructions
+	@make program
