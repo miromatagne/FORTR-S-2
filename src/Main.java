@@ -64,11 +64,6 @@ public class Main {
           writeToTex(parser, texFileName);
         }
       }
-      // System.out.print(parseTree.toLaTeX());
-
-      // for(int i = 0; i < parseTree.getChildren().size(); i++) {
-      // System.out.print(parseTree.getChildren().get(i) + " ");
-      // }
     }
   }
 
