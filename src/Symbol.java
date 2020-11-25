@@ -30,6 +30,10 @@ public class Symbol{
 		this(unit, UNDEFINED_POSITION, UNDEFINED_POSITION, value);
 	}
 
+	/**
+	 * Constructor of the Symbol class of a non-terminal 
+	 * @param name string indicating the name of a non-terminal symbol
+	 */
 	public Symbol(String name) { // added
 		this(null, UNDEFINED_POSITION, UNDEFINED_POSITION, NO_VALUE);
 		this.name = name;
@@ -76,6 +80,10 @@ public class Symbol{
 		return "Non-terminal symbol";
 	}
 
+	/**
+	 * Return the type and the value of a root
+	 * @return string corresponding to the type and value of a root
+	 */
 	public String toTexString(){
 		if(this.isTerminal()){
 			final String value	= this.value != null? this.value.toString() : "null";

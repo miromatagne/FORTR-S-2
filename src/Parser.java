@@ -382,16 +382,17 @@ public class Parser {
         List<ParseTree> children = new ArrayList<ParseTree>();
         Symbol token = nextToken();
         switch (token.getType()) {
-            case GT:
+            case EQ:
                 printVerbose(26);
                 addRule(26);
-                match(new Symbol(LexicalUnit.GT), children);
-                break;
-            case EQ:
-                printVerbose(27);
-                addRule(27);
                 match(new Symbol(LexicalUnit.EQ), children);
                 break;
+            case GT:
+                printVerbose(27);
+                addRule(27);
+                match(new Symbol(LexicalUnit.GT), children);
+                break;
+            
             default:
                 // System.out.println("ERROR");
         }
