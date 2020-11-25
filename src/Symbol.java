@@ -94,7 +94,7 @@ public class Symbol{
 		}
 		else{
 			final String name = this.value != null? this.value.toString() : "null";
-			if(this.name == "epsilon"){
+			if(name == "epsilon"){
 				return String.format("$\\varepsilon$");
 			}
 			else{
