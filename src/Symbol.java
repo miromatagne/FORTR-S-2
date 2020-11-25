@@ -2,10 +2,9 @@ public class Symbol{
 	public static final int UNDEFINED_POSITION = -1;
 	public static final Object NO_VALUE = null;
 	
-	private final LexicalUnit type;
-	private final Object value;
-	private final int line,column;
-	private String name;
+	private LexicalUnit type;
+	private Object value;
+	private int line,column;
 
 	public Symbol(LexicalUnit unit, int line, int column, Object value) {
 		this.type = unit;
@@ -32,11 +31,11 @@ public class Symbol{
 
 	/**
 	 * Constructor of the Symbol class of a non-terminal 
-	 * @param name string indicating the name of a non-terminal symbol
+	 * @param value string indicating the name of a non-terminal symbol
 	 */
-	public Symbol(String name) { // added
+	public Symbol(Object value) { 
 		this(null, UNDEFINED_POSITION, UNDEFINED_POSITION, NO_VALUE);
-		this.name = name;
+		this.value = value;
 	}
 
 	public boolean isTerminal(){
@@ -73,8 +72,8 @@ public class Symbol{
 	@Override
 	public String toString(){
 		if(this.isTerminal()){
-			final String value	= this.value != null? this.value.toString() : "null";
-			final String type		= this.type  != null? this.type.toString()  : "null";
+			final String value = this.value != null? this.value.toString() : "null";
+			final String type = this.type  != null? this.type.toString()  : "null";
       		return String.format("token: %-15slexical unit: %s", value, type);
 		}
 		return "Non-terminal symbol";
@@ -86,15 +85,15 @@ public class Symbol{
 	 */
 	public String toTexString(){
 		if(this.isTerminal()){
-			final String value	= this.value != null? this.value.toString() : "null";
-			final String type		= this.type  != null? this.type.toString()  : "null";
+			final String value = this.value != null? this.value.toString() : "null";
+			final String type = this.type  != null? this.type.toString()  : "null";
 			if(this.type == LexicalUnit.GT){
 				return String.format("%s \\textgreater", type);
 			}
       		return String.format("\\textbf{%s}  %s", type, value); 
 		}
 		else{
-			final String name = this.name != null? this.name.toString() : "null";
+			final String name = this.value != null? this.value.toString() : "null";
 			if(this.name == "epsilon"){
 				return String.format("$\\varepsilon$");
 			}
