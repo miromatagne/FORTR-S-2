@@ -10,4 +10,4 @@ verbose:
 	java -jar dist/part2.jar test/Atom/Atom.fs -v
 
 tree:
-	java -jar dist/part2.jar test/Atom/Atom.fs -wt more/TexFiles/tree.tex
+	java -jar dist/part2.jar test/Atom/Atom.fs -wt more/tree.tex
