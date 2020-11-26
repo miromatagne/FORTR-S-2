@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 /**
  * A skeleton class to represent parse trees. The arity is not fixed: a node can
- * have 0, 1 or more children. Trees are represented in the following way: Tree
- * :== Symbol * List<Tree> In other words, trees are defined recursively: A tree
+ * have 0, 1 or more children. Trees are represented in the following way: ParseTree
+ * :== Symbol * List<ParseTree> In other words, trees are defined recursively: A tree
  * is a root (with a label of type Symbol) and a list of trees children. Thus, a
  * leave is simply a tree with no children (its list of children is empty). This
  * class can also be seen as representing the Node of a tree, in which case a
@@ -44,6 +44,7 @@ public class ParseTree {
 
     /**
      * Writes the tree as LaTeX code
+     * @return the complete LaTeX code corresponding to the tree
      */
     public String toLaTexTree() {
         StringBuilder treeTeX = new StringBuilder();
@@ -61,6 +62,7 @@ public class ParseTree {
     /**
      * Writes the tree as TikZ code. TikZ is a language to specify drawings in LaTeX
      * files.
+     * @return Tikz code
      */
     public String toTikZ() {
         StringBuilder treeTikZ = new StringBuilder();
@@ -78,6 +80,7 @@ public class ParseTree {
     /**
      * Writes the tree as a TikZ picture. A TikZ picture embeds TikZ code so that
      * LaTeX undertands it.
+     * @return complete Tikz code
      */
     public String toTikZPicture() {
         return "\\begin{tikzpicture}[tree layout]\n\\" + toTikZ() + ";\n\\end{tikzpicture}";
@@ -95,6 +98,7 @@ public class ParseTree {
      * <pre>
      * lualatex some-file.tex
      * </pre>
+     * @return the Lua text
      */
     public String toLaTeXLua() {
         return "\\RequirePackage{luatex85}\n\\documentclass{standalone}\n\n\\usepackage{tikz}\n\n\\usetikzlibrary{graphdrawing, graphdrawing.trees}\n\n\\begin{document}\n\n"
@@ -104,6 +108,7 @@ public class ParseTree {
     /**
      * Writes the tree as a forest picture. Returns the tree in forest enviroment
      * using the latex code of the tree
+     * @return the forest picture string
      */
     public String toForestPicture() {
         return "\\begin{forest}for tree={rectangle, draw, l sep=20pt}" + toLaTexTree() + ";\n\\end{forest}";
@@ -118,6 +123,7 @@ public class ParseTree {
      * <pre>
      * pdflatex some-file.tex
      * </pre>
+     * @return the LaTex string
      */
     public String toLaTeX() {
         return "\\documentclass[border=5pt]{standalone}\n\n\\usepackage{tikz}\n\\usepackage{forest}\n\n\\begin{document}\n\n"

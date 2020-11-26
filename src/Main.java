@@ -22,7 +22,7 @@ public class Main {
    * Main function, creates an instance of the LexicalAnalyzer class and prints
    * out the tokens it returns.
    * 
-   * @param argv
+   * @param argv arguments written to the command line
    */
   public static void main(String[] argv) {
     // Syntax check
